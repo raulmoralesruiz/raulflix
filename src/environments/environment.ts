@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+};
+
+export const server = {
+  ip: 'http://dzr11.ddns.net:8088/jacaranda-0.0.1-SNAPSHOT',
 };
 
 /*

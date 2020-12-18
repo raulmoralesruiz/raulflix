@@ -1,0 +1,287 @@
+<div class="cuerpo">
+
+    <!-- Div que muestra mensaje al usuario, informando sobre que no tiene permisos para ver esta sección -->
+    <div *ngIf="!activeUserIsAdmin()" class="container notAdmin centrado">
+        <h1 class="pb-5">Sorry</h1>
+
+        <h3>You do not have access as administrator</h3>
+        <h3 class="pb-5">If you are an administrator, you can log in from here</h3>
+
+        <button class="btn btn-info" [routerLink]="['/login']">Go to Login</button>
+    </div>
+
+
+    <!-- Div que muestra información al usuario, si es admin -->
+    <div *ngIf="activeUserIsAdmin()" id="div-formulario">
+
+
+        <!-- Formulario para crear producto -->
+        <form [formGroup]="productForm" action="">
+
+            <div id="divPostProduct" class="divBotones">
+                <h1>POST - Product</h1>
+
+                <!-- TITULO DEL PRODUCTO -->
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" formControlName="title" name="title" class="form-control"
+                        placeholder="Introduce título"
+                        [class.is-invalid]="productForm.get('title').touched && productForm.get('title').invalid">
+                    <div class="alert alert-danger"
+                        [hidden]="productForm.get('title').pristine || productForm.get('title').valid">
+                        El campo 'title' no es válido
+                    </div>
+                </div>
+
+
+                <!-- CATEGORIA DEL PRODUCTO -->
+                <div class="form-group">
+                    <label for="selectCategory">Category</label>
+                    <select class="form-control" id="selectCategory" formControlName="category"
+                        [class.is-invalid]="productForm.get('category').invalid">
+                        <option disabled selected value>Select an option</option>
+                        <option *ngFor="let cat of categories" value="{{cat.value}}">
+                            {{ cat.name }}
+                        </option>
+                    </select>
+                    <div class="alert alert-danger"
+                        [hidden]="productForm.get('category').pristine || productForm.get('category').valid">
+                        El campo 'category' no es válido
+                    </div>
+                </div>
+
+
+                <!-- TIPO DE CONTENIDO DEL PRODUCTO -->
+                <div class="form-group">
+                    <label for="selectContentType">Content type</label>
+                    <select class="form-control" id="selectContentType" formControlName="contentType"
+                        [class.is-invalid]="productForm.get('contentType').invalid">
+                        <option disabled selected value>Select an option</option>
+                        <option *ngFor="let ct of contentTypes" value="{{ct.value}}">
+                            {{ ct.name }}
+                        </option>
+                    </select>
+                    <div class="alert alert-danger"
+                        [hidden]="productForm.get('contentType').pristine || productForm.get('contentType').valid">
+                        El campo 'contentType' no es válido
+                    </div>
+                </div>
+
+
+                <!-- TIPO DE SUBSCRIPCION DEL PRODUCTO -->
+                <div class="form-group">
+                    <label for="selectSubscriptionType">Subscription type</label>
+                    <select class="form-control" id="selectSubscriptionType" formControlName="subscriptionType"
+                        [class.is-invalid]="productForm.get('subscriptionType').invalid">
+                        <option disabled selected value>Select an option</option>
+                        <option *ngFor="let st of subscriptionTypes" value="{{st.value}}">
+                            {{ st.name }}
+                        </option>
+                    </select>
+                    <div class="alert alert-danger"
+                        [hidden]="productForm.get('subscriptionType').pristine || productForm.get('subscriptionType').valid">
+                        El campo 'subscriptionType' no es válido
+                    </div>
+                </div>
+
+
+                <button id="botonPostProduct" class="btn btn-info margenBoton" [disabled]="!productForm.valid"
+                    (click)="sendData()">
+                    Create product
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <!-- Div que muestra información sobre las peticiones GET -->
+        <div class="container mt-4">
+
+            <h1>GET</h1>
+
+            <ul class="nav nav-tabs justify-content-center" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" role="tab" (click)="closeCard()">Closed</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" (click)="getCustomers()">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" (click)="getProducts()">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" (click)="getVisuals()">Visuals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" (click)="getSubscriptions()">Subscriptions</a>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- Div que muestra información sobre clientes, si activeCard está activo -->
+        <div *ngIf="activeCard == 'customers'" class="mt-5">
+
+            <div class="card-columns">
+                <div *ngFor="let c of customers" class="card">
+                    <div class="card-header cardRowBg">{{ c.username }}</div>
+                    <div class="card-body cardBg">
+                        <p class="card-text">
+                            {{ c.id }}<span class="text-muted"> - ID</span>
+                        </p>
+                        <p class="card-text">
+                            {{ c.name }}<span class="text-muted"> - Name</span>
+                        </p>
+                        <p *ngIf="c.surname" class="card-text">
+                            {{ c.surname }}<span class="text-muted"> - Surname</span>
+                        </p>
+                        <p *ngIf="c.address" class="card-text">
+                            {{ c.address }}<span class="text-muted"> - Address</span>
+                        </p>
+                        <p *ngIf="c.city" class="card-text">
+                            {{ c.city }}<span class="text-muted"> - City</span>
+                        </p>
+                        <p class="card-text">{{ c.dni }}
+                            <span class="text-muted"> - DNI</span>
+                        </p>
+                        <button class="btn btn-info btn-block" (click)="deleteCustomer( c.id )">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Div que muestra información sobre productos, si activeCard está activo -->
+        <div *ngIf="activeCard == 'products'" class="mt-5">
+            <div class="card-columns">
+                <div *ngFor="let p of products" class="card">
+                    <div class="card-header cardRowBg">{{ p.title }}</div>
+                    <div class="card-body cardBg">
+                        <p class="card-text">{{ p.idProduct }} - ID</p>
+                        <p class="card-text">{{ p.category }} - Category</p>
+                        <p class="card-text">{{ p.contentType }} - Content type</p>
+                        <p class="card-text">{{ p.subscriptionType }} - Subscription type</p>
+                        <button class="btn btn-info btn-block" (click)="deleteProduct( p.idProduct )">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Div que muestra información sobre visualizaciones del cliente, si activeCard está activo -->
+        <div *ngIf="activeCard == 'visuals'" class="mt-5">
+
+            <div class="card-columns">
+                <div *ngFor="let v of visuals" class="card">
+                    <div class="card-header cardRowBg">{{ v.idVisual }} - {{ v.product.title }}</div>
+                    <div class="card-body cardBg">
+                        <p class="card-text">
+                            {{ v.start }}<span class="text-muted"> - Start</span>
+                        </p>
+                        <p class="card-text">
+                            {{ v.end }}<span class="text-muted"> - End</span>
+                        </p>
+                        <p class="card-text">
+                            {{ v.idCustomer }}<span class="text-muted"> - ID Customer</span>
+                        </p>
+                        <p class="card-text">
+                            {{ v.product.idProduct }}<span class="text-muted"> - ID Product</span>
+                        </p>
+                        <button class="btn btn-info btn-block" (click)="deleteVisual( v.idCustomer, v.idVisual )">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Div que muestra información sobre subscripciones del cliente, si activeCard está activo -->
+        <div *ngIf="activeCard == 'subscriptions'" class="mt-5">
+
+            <div class="card-columns">
+                <div *ngFor="let s of subscriptions" class="card">
+                    <div class="card-header cardRowBg">{{ s.idSubscription }}</div>
+                    <div class="card-body cardBg">
+                        <p class="card-text">
+                            {{ s.start }}<span class="text-muted"> - Start</span>
+                        </p>
+                        <p class="card-text">
+                            {{ s.end }}<span class="text-muted"> - End</span>
+                        </p>
+                        <p class="card-text">
+                            {{ s.subscriptionType }}<span class="text-muted"> - Subscription type</span>
+                        </p>
+                        <p class="card-text">
+                            {{ s.idCustomer }}<span class="text-muted"> - ID Customer</span>
+                        </p>
+                        <button class="btn btn-info btn-block" (click)="deleteSubscription( s.idCustomer )">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Div que muestra información sobre la búsqueda de un cliente -->
+        <div class="container mt-4 divBotones">
+
+            <h1>Search</h1>
+
+            <div class="form-group">
+                <label for="oneCustomer">ID Customer</label>
+                <input type="text" name="oneCustomer" class="form-control" placeholder="Introduce ID Customer"
+                    [(ngModel)]="searchedIdCustomer" [ngModelOptions]="{standalone: true}">
+            </div>
+
+            <button class="btn btn-info" (click)="getOneCustomer()">
+                Get customer
+            </button>
+
+            <div *ngIf="activeTable && oneCustomer as c">
+                <table class="table table-striped table-bordered table-responsive-md table-dark mt-3">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Name</th>
+
+                            <th scope="col">Surname</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">City</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{ c.id }}</th>
+                            <td>{{ c.username }}</td>
+                            <td>{{ c.dni }}</td>
+                            <td>{{ c.name }}</td>
+
+                            <td>{{ c.surname }}</td>
+                            <td>{{ c.address }}</td>
+                            <td>{{ c.city }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button class="btn btn-info" (click)="closeTable()">
+                    Close table
+                </button>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
