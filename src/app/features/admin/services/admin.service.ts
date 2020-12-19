@@ -5,7 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { SelectI } from 'src/app/interfaces/select';
 import { ProductI } from 'src/app/interfaces/product';
-import { server } from 'src/environments/environment';
+import { environment, server } from 'src/environments/environment';
+import { remoteServer } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
@@ -96,7 +97,17 @@ export class AdminService {
   // Método para crear producto, realizando POST
   createProduct(product: ProductI): Observable<ProductI> {
     // const endpoint = 'http://localhost:8080/netflix/products/';
-    const endpoint = `${server.ip}/netflix/products/`;
+    // const endpoint = `${server.ip}/netflix/products/`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/products/`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/products/`;
+    }
 
     return this.http.post<ProductI>(endpoint, product, this.httpOptions);
   }
@@ -104,7 +115,17 @@ export class AdminService {
   // Obtener nombres de usuario
   getCustomers(): Observable<any> {
     // const endpoint = 'http://localhost:8080/netflix/customer';
-    const endpoint = `${server.ip}/netflix/customer/`;
+    // const endpoint = `${server.ip}/netflix/customer/`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/customer`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/customer`;
+    }
 
     return this.http.get(endpoint).pipe(
       map((response) => {
@@ -116,7 +137,17 @@ export class AdminService {
   // Obtener nombres de usuario
   getOneCustomer(idCustomer: number): Observable<any> {
     // const endpoint = `http://localhost:8080/netflix/customer/${idCustomer}`;
-    const endpoint = `${server.ip}/netflix/customer/${idCustomer}`;
+    // const endpoint = `${server.ip}/netflix/customer/${idCustomer}`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/customer/${idCustomer}`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/customer/${idCustomer}`;
+    }
 
     return this.http.get(endpoint).pipe(
       map((response) => {
@@ -128,7 +159,17 @@ export class AdminService {
   // Obtener nombres de usuario
   getProducts(): Observable<any> {
     // const endpoint = 'http://localhost:8080/netflix/products/';
-    const endpoint = `${server.ip}/netflix/products/`;
+    // const endpoint = `${server.ip}/netflix/products/`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/products/`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/products/`;
+    }
 
     return this.http.get(endpoint).pipe(
       map((response) => {
@@ -140,7 +181,17 @@ export class AdminService {
   // Obtener nombres de usuario
   getVisuals(): Observable<any> {
     // const endpoint = 'http://localhost:8080/netflix/visual';
-    const endpoint = `${server.ip}/netflix/visual`;
+    // const endpoint = `${server.ip}/netflix/visual`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/visual`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/visual`;
+    }
 
     return this.http.get(endpoint).pipe(
       map((response) => {
@@ -152,7 +203,17 @@ export class AdminService {
   // Obtener nombres de usuario
   getSubscriptions(): Observable<any> {
     // const endpoint = 'http://localhost:8080/netflix/subscription';
-    const endpoint = `${server.ip}/netflix/subscription`;
+    // const endpoint = `${server.ip}/netflix/subscription`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/subscription`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/subscription`;
+    }
 
     return this.http.get(endpoint).pipe(
       map((response) => {
@@ -164,7 +225,17 @@ export class AdminService {
   // Método para eliminar cliente, petición DELETE
   deleteCustomer(idCustomer: number): Observable<any> {
     // const endpoint = `http://localhost:8080/netflix/customer/${idCustomer}`;
-    const endpoint = `${server.ip}/netflix/customer/${idCustomer}`;
+    // const endpoint = `${server.ip}/netflix/customer/${idCustomer}`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/customer/${idCustomer}`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/customer/${idCustomer}`;
+    }
 
     return this.http.delete<any>(endpoint, this.httpOptions);
   }
@@ -172,7 +243,17 @@ export class AdminService {
   // Método para eliminar producto, petición DELETE
   deleteProduct(idProduct: number): Observable<any> {
     // const endpoint = `http://localhost:8080/netflix/products/${idProduct}`;
-    const endpoint = `${server.ip}/netflix/products/${idProduct}`;
+    // const endpoint = `${server.ip}/netflix/products/${idProduct}`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/products/${idProduct}`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/products/${idProduct}`;
+    }
 
     return this.http.delete<any>(endpoint, this.httpOptions);
   }
@@ -180,7 +261,17 @@ export class AdminService {
   // Método para eliminar visualización, petición DELETE
   deleteVisual(idCustomer: number, idVisual: number): Observable<any> {
     // const endpoint = `http://localhost:8080/netflix/visual/c${idCustomer}/v${idVisual}`;
-    const endpoint = `${server.ip}/netflix/visual/c${idCustomer}/v${idVisual}`;
+    // const endpoint = `${server.ip}/netflix/visual/c${idCustomer}/v${idVisual}`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/visual/c${idCustomer}/v${idVisual}`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/visual/c${idCustomer}/v${idVisual}`;
+    }
 
     return this.http.delete<any>(endpoint, this.httpOptions);
   }
@@ -188,7 +279,17 @@ export class AdminService {
   // Método para eliminar subscripción, petición DELETE
   deleteSubscription(idCustomer: number): Observable<any> {
     // const endpoint = `http://localhost:8080/netflix/subscription/c${idCustomer}`;
-    const endpoint = `${server.ip}/netflix/subscription/c${idCustomer}`;
+    // const endpoint = `${server.ip}/netflix/subscription/c${idCustomer}`;
+
+    // Se define variable endpoint
+    let endpoint: string;
+
+    // Se establece endpoint, dependiendo si es desarrollo o producción
+    if (!environment.production) {
+      endpoint = `${server.ip}/netflix/subscription/c${idCustomer}`;
+    } else {
+      endpoint = `${remoteServer.ip}/netflix/subscription/c${idCustomer}`;
+    }
 
     return this.http.delete<any>(endpoint, this.httpOptions);
   }
