@@ -7,7 +7,7 @@ export const environment = {
 };
 
 export const server = {
-  ip: 'http://localhost:8080',
+  ip: 'http://192.168.1.220:8088/jacaranda-0.0.1-SNAPSHOT/',
 };
 
 /*

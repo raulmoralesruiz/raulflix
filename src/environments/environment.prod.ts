@@ -7,5 +7,5 @@ export const environment = {
 }; */
 
 export const remoteServer = {
-  ip: 'https://dzr11.ddns.net:8443/jacaranda-0.0.1-SNAPSHOT',
+  ip: 'https://raulflix.raulmorales.eu/raulflix',
 };
